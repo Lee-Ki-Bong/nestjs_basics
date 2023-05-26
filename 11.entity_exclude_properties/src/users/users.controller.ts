@@ -1,0 +1,51 @@
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersService } from './users.service';
+
+@Controller('users')
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get()
+  getAll() {
+    return this.usersService.getAll();
+  }
+
+  @Get('search')
+  search(@Query('name') name: string) {
+    return this.usersService.search(name);
+  }
+
+  @Get('/:id')
+  getOne(@Param('id') userId: number) {
+    return this.usersService.getOne(userId);
+  }
+
+  @Post()
+  create(@Body() userData: CreateUserDto) {
+    return this.usersService.create(userData);
+  }
+
+  @Delete('/:id')
+  remove(@Param('id') userId: number) {
+    return this.usersService.deleteOne(userId);
+  }
+
+  @Patch('/:id')
+  patch(@Param('id') userId: number, @Body() updateData: UpdateUserDto) {
+    return this.usersService.update(userId, updateData);
+  }
+}
