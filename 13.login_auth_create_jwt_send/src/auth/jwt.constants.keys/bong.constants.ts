@@ -1,3 +1,3 @@
 export const BongJwtConstants = {
-  secret: 'bong_secret__key',
+  secret: 'bong_secret_key',
 };
